@@ -1,0 +1,27 @@
+.character {
+    border: 1px solid lightgrey;
+    font-size: 20px;
+    border-radius: 8px;
+    font-weight: 600;
+    /* light theme */
+    color: #272729;
+    background-color: #F6F5FA;
+    box-shadow: none;
+  }
+  
+  /* .scrollbar {
+    height: 500px;
+    overflow-y: scroll;
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 5px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background-color: transparent;
+} */

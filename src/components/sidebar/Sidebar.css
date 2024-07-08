@@ -1,0 +1,45 @@
+.navbar {
+    display: inline-block;
+    box-shadow: none;
+    background-color: transparent;
+    color: #A5ADB0;
+    width: 210px;
+    font-weight: 500;
+    font-size: 13px;
+    font-family: Laila;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+}
+
+/* .navbar .icon { 
+    color: red;
+} */
+
+.navbar li:hover {
+    /* width: 100vh; */
+    display: inline-block;
+    box-shadow: none;
+    background-color: transparent;
+}
+
+.navbar .navbar-link {
+    text-decoration: none;
+    color: gray
+}
+
+.navbar .navbar-link:hover {
+    box-shadow: none; 
+}
+
+.navbar .active {
+    width: 220px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    background-color: #F5BC01;
+    box-shadow: none;
+    /* border-left: 6px solid #FF5722; */
+    height: 50px;
+    /* padding: 15; */
+    display: inline-block;
+    color: white;
+}
