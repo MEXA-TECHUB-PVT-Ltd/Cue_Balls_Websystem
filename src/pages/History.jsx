@@ -3,7 +3,7 @@ import Sidebar from "../components/sidebar/Sidebar";
 import { Avatar, Box, Button, Card, CardContent, Divider, Grid, IconButton, InputAdornment, Menu, MenuItem, OutlinedInput, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import TypographyMD from "../components/items/Typography";
 import Topbar from "../components/topbar/Topbar";
-import { ArrowBackIos, ArrowForwardIos, Block, Error, FilterAlt, Search, Visibility } from "@mui/icons-material"
+import { ArrowBackIos, ArrowForwardIos, Block, Error as MuiError, FilterAlt, Search, Visibility } from "@mui/icons-material"
 import background from "../Assets/background.PNG";
 import ButtonMD from "../components/items/ButtonMD";
 import "./scrollbar.css"
@@ -132,21 +132,20 @@ function History() {
         // Define the message listener
         const messageListener = (msg) => {
             console.log("msg", msg);
-            // endpoint(msg.status);
             setStatus(msg);
 
             switch (msg.status) {
                 case "created":
-                    console.log("game-created");// show triangle screen
+                    console.log("game-created"); // show triangle screen
                     navigate(`${endpoint}playgame`);
                     break;
                 case "waiting":
                     console.log("game-status-change"); // show waiting screen ss in phone if status is waiting
-                    navigate(`${endpoint}waiting`)
+                    navigate(`${endpoint}waiting`);
                     break;
                 case "started":
-                    console.log("game-started"); //   if status is started then show animation
-                    navigate(`${endpoint}gamestarted`)
+                    console.log("game-started"); // if status is started then show animation
+                    navigate(`${endpoint}gamestarted`);
                     break;
                 case "result-anounced":
                     console.log("result-anounced");
@@ -170,8 +169,8 @@ function History() {
                 default:
                     console.log("Unknown status");
             }
+            
             console.log(":ddggfgf");
-            // setStatus("dffgfdfg");
         };
 
         // Set up the socket event listener

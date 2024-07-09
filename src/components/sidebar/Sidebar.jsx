@@ -270,7 +270,7 @@ function Sidebar({ componentData }) {
 
                             <li>
                                 <NavLink to={`${endpoint}dashboard`} className="navbar-link">
-                                    {[<span ><Typography sx={{ fontFamily: "Rubik" }}>Dashboard</Typography></span>].map((text, index) => (
+                                    {[<span key="dashboard"><Typography sx={{ fontFamily: "Rubik" }}>Dashboard</Typography></span>].map((text, index) => (
                                         <ListItem key={text} disablePadding sx={{ display: 'block' }} >
                                             <ListItemButton
                                                 sx={{
@@ -297,7 +297,7 @@ function Sidebar({ componentData }) {
 
                             <li>
                                 <NavLink to={`${endpoint}wallet`} className="navbar-link">
-                                    {[<span ><Typography sx={{ fontFamily: "Rubik" }}>Wallet</Typography></span>].map((text, index) => (
+                                    {[<span key="wallet"><Typography sx={{ fontFamily: "Rubik" }}>Wallet</Typography></span>].map((text, index) => (
                                         <ListItem key={text} disablePadding sx={{ display: 'block' }} >
                                             <ListItemButton
                                                 sx={{
@@ -324,7 +324,7 @@ function Sidebar({ componentData }) {
 
                             <li>
                                 <NavLink to={`${endpoint}history`} className="navbar-link">
-                                    {[<span ><Typography sx={{ fontFamily: "Rubik" }}>History</Typography></span>].map((text, index) => (
+                                    {[<span key="history"><Typography sx={{ fontFamily: "Rubik" }}>History</Typography></span>].map((text, index) => (
                                         <ListItem key={text} disablePadding sx={{ display: 'block' }} >
                                             <ListItemButton
                                                 sx={{
@@ -351,7 +351,7 @@ function Sidebar({ componentData }) {
 
                             <li>
                                 <NavLink to={`${endpoint}editprofile`} className="navbar-link">
-                                    {[<span ><Typography sx={{ fontFamily: "Rubik" }}>Edit Profile</Typography></span>].map((text, index) => (
+                                    {[<span key="editprofile"><Typography sx={{ fontFamily: "Rubik" }}>Edit Profile</Typography></span>].map((text, index) => (
                                         <ListItem key={text} disablePadding sx={{ display: 'block' }} >
                                             <ListItemButton
                                                 sx={{
@@ -380,7 +380,7 @@ function Sidebar({ componentData }) {
                                 :
                                 <li>
                                     <NavLink to={`${endpoint}changepassword`} className="navbar-link">
-                                        {[<span ><Typography sx={{ fontFamily: "Rubik" }}>Change Password</Typography></span>].map((text, index) => (
+                                        {[<span key="changepassword"><Typography sx={{ fontFamily: "Rubik" }}>Change Password</Typography></span>].map((text, index) => (
                                             <ListItem key={text} disablePadding sx={{ display: 'block' }} >
                                                 <ListItemButton
                                                     sx={{
@@ -408,7 +408,7 @@ function Sidebar({ componentData }) {
 
                             <li>
                                 <NavLink to={`${endpoint}contactus`} className="navbar-link">
-                                    {[<span ><Typography sx={{ fontFamily: "Rubik" }}>Contact us</Typography></span>].map((text, index) => (
+                                    {[<span key="contactus"><Typography sx={{ fontFamily: "Rubik" }}>Contact us</Typography></span>].map((text, index) => (
                                         <ListItem key={text} disablePadding sx={{ display: 'block' }} >
                                             <ListItemButton
                                                 sx={{
@@ -435,7 +435,7 @@ function Sidebar({ componentData }) {
 
                             <li>
                                 <NavLink to={`${endpoint}privacypolicy`} className="navbar-link">
-                                    {[<span ><Typography sx={{ fontFamily: "Rubik" }}>Privacy Policy</Typography></span>].map((text, index) => (
+                                    {[<span key="privacypolicy"><Typography sx={{ fontFamily: "Rubik" }}>Privacy Policy</Typography></span>].map((text, index) => (
                                         <ListItem key={text} disablePadding sx={{ display: 'block' }} >
                                             <ListItemButton
                                                 sx={{
@@ -462,7 +462,7 @@ function Sidebar({ componentData }) {
 
                             <li>
                                 <NavLink to={`${endpoint}termsconditions`} className="navbar-link">
-                                    {[<span ><Typography sx={{ fontFamily: "Rubik" }}>Terms & Conditions</Typography></span>].map((text, index) => (
+                                    {[<span key="termsconditions"><Typography sx={{ fontFamily: "Rubik" }}>Terms & Conditions</Typography></span>].map((text, index) => (
                                         <ListItem key={text} disablePadding sx={{ display: 'block' }} >
                                             <ListItemButton
                                                 sx={{
@@ -489,7 +489,7 @@ function Sidebar({ componentData }) {
 
                             <li>
                                 <NavLink to={`${endpoint}deleteaccount`} className="navbar-link">
-                                    {[<span ><Typography sx={{ fontFamily: "Rubik" }}>Delete Account</Typography></span>].map((text, index) => (
+                                    {[<span key="deleteaccount"><Typography sx={{ fontFamily: "Rubik" }}>Delete Account</Typography></span>].map((text, index) => (
                                         <ListItem key={text} disablePadding sx={{ display: 'block' }} >
                                             <ListItemButton
                                                 sx={{

@@ -48,7 +48,12 @@ function Restartgame() {
     const getBalls = () => {
         axios.get(`${url}contact_us/get_all_ball_images`)
             .then(response => console.log(response.data.data))
-            .catch(error => console.error('Error fetching data:', error));
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                toast.error('Failed to load ball images. Please try again.', {
+                    position: toast.POSITION.BOTTOM_CENTER
+                });
+            });
     }
 
     // schedule game
@@ -91,8 +96,8 @@ function Restartgame() {
             }
             )
             .catch(error => {
-                // setLoading(false);
-                toast.error(error, {
+                setLoading(false);
+                toast.error(error || 'Failed to load scheduled games.', {
                     position: toast.POSITION.BOTTOM_CENTER
                 });
             });
@@ -214,11 +219,9 @@ function Restartgame() {
                     })
                     .catch(error => {
                         setLoading(false);
-                        toast.error(error, {
-                            position: toast.POSITION.TOP_RIGHT
+                        toast.error(error || 'Failed to process payment.', {
+                            position: toast.POSITION.BOTTOM_CENTER
                         });
-
-                        console.log('There has been a problem with your fetch operation:', error);
                     });
             }, 2000)
 
@@ -234,32 +237,42 @@ function Restartgame() {
             console.log("msg", msg);
             setStatus(msg);
 
-            if (msg.status === "created") {
-                console.log("game-created"); // show triangle screen
-                navigate(`${endpoint}playgame`);
-            } else if (msg.status === "waiting") {
-                console.log("game-status-change"); // show waiting screen ss in phone if status is waiting
-                navigate(`${endpoint}waiting`);
-            } else if (msg.status === "started") {
-                console.log("game-started"); // if status is started then show animation
-                navigate(`${endpoint}gamestarted`);
-            } else if (msg.status === "result-anounced") {
-                console.log("result-anounced");
-                navigate(`${endpoint}winner`);
-            } else if (msg.status === "restart") {
-                console.log("game-restart"); // show restart game screen ss in phone
-                navigate(`${endpoint}restart`);
-            } else if (msg.status === "added-participants") {
-                console.log("added-participants");
-            } else if (msg.status === "deleted") {
-                console.log("game-deleted");
-                navigate(`${endpoint}dashboard`);
-            } else if (msg.status === "scheduled") {
-                console.log("game-scheduled");
-                navigate(`${endpoint}playgame`);
-            } else {
-                console.log("Unknown status");
+            switch (msg.status) {
+                case "created":
+                    console.log("game-created"); // show triangle screen
+                    navigate(`${endpoint}playgame`);
+                    break;
+                case "waiting":
+                    console.log("game-status-change"); // show waiting screen ss in phone if status is waiting
+                    navigate(`${endpoint}waiting`);
+                    break;
+                case "started":
+                    console.log("game-started"); // if status is started then show animation
+                    navigate(`${endpoint}gamestarted`);
+                    break;
+                case "result-anounced":
+                    console.log("result-anounced");
+                    navigate(`${endpoint}winner`);
+                    break;
+                case "restart":
+                    console.log("game-restart"); // show restart game screen ss in phone
+                    navigate(`${endpoint}restart`);
+                    break;
+                case "added-participants":
+                    console.log("added-participants");
+                    break;
+                case "deleted":
+                    console.log("game-deleted");
+                    navigate(`${endpoint}dashboard`);
+                    break;
+                case "scheduled":
+                    console.log("game-scheduled");
+                    navigate(`${endpoint}playgame`);
+                    break;
+                default:
+                    console.log("Unknown status");
             }
+
             console.log(":ddggfgf");
         };
 
@@ -294,7 +307,13 @@ function Restartgame() {
         }
 
         getBalls();
-        getScheduleGame(details);
+        try {
+            getScheduleGame(details);
+        } catch (error) {
+            toast.error('Failed to load scheduled games. Please try again.', {
+                position: toast.POSITION.BOTTOM_CENTER
+            });
+        }
 
     }, []);
 

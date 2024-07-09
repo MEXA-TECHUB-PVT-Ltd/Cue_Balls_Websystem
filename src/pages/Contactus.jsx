@@ -114,44 +114,54 @@ function Contactus() {
     useEffect(() => {
         // Initialize the socket connection
         const socket = io(url);
-    
+
         // Define the message listener
         const messageListener = (msg) => {
             console.log("msg", msg);
             setStatus(msg);
-    
-            if (msg.status === "created") {
-                console.log("game-created"); // show triangle screen
-                navigate(`${endpoint}playgame`);
-            } else if (msg.status === "waiting") {
-                console.log("game-status-change"); // show waiting screen ss in phone if status is waiting
-                navigate(`${endpoint}waiting`);
-            } else if (msg.status === "started") {
-                console.log("game-started"); // if status is started then show animation
-                navigate(`${endpoint}gamestarted`);
-            } else if (msg.status === "result-anounced") {
-                console.log("result-anounced");
-                navigate(`${endpoint}winner`);
-            } else if (msg.status === "restart") {
-                console.log("game-restart"); // show restart game screen ss in phone
-                navigate(`${endpoint}restart`);
-            } else if (msg.status === "added-participants") {
-                console.log("added-participants");
-            } else if (msg.status === "deleted") {
-                console.log("game-deleted");
-                navigate(`${endpoint}dashboard`);
-            } else if (msg.status === "scheduled") {
-                console.log("game-scheduled");
-                navigate(`${endpoint}playgame`);
-            } else {
-                console.log("Unknown status");
+
+            switch (msg.status) {
+                case "created":
+                    console.log("game-created"); // show triangle screen
+                    navigate(`${endpoint}playgame`);
+                    break;
+                case "waiting":
+                    console.log("game-status-change"); // show waiting screen ss in phone if status is waiting
+                    navigate(`${endpoint}waiting`);
+                    break;
+                case "started":
+                    console.log("game-started"); // if status is started then show animation
+                    navigate(`${endpoint}gamestarted`);
+                    break;
+                case "result-anounced":
+                    console.log("result-anounced");
+                    navigate(`${endpoint}winner`);
+                    break;
+                case "restart":
+                    console.log("game-restart"); // show restart game screen ss in phone
+                    navigate(`${endpoint}restart`);
+                    break;
+                case "added-participants":
+                    console.log("added-participants");
+                    break;
+                case "deleted":
+                    console.log("game-deleted");
+                    navigate(`${endpoint}dashboard`);
+                    break;
+                case "scheduled":
+                    console.log("game-scheduled");
+                    navigate(`${endpoint}playgame`);
+                    break;
+                default:
+                    console.log("Unknown status");
             }
+
             console.log(":ddggfgf");
         };
-    
+
         // Set up the socket event listener
         socket.on("received-data", messageListener);
-    
+
         // Cleanup function to remove the message listener and disconnect socket
         return () => {
             socket.off("received-data", messageListener);

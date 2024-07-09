@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import { Box, Button, Card, CardContent, Divider, Grid, IconButton, InputAdornment, Menu, MenuItem, OutlinedInput, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import TypographyMD from "../components/items/Typography";
-import Topbar from "../components/topbar/Topbar";
-import { ArrowBackIos, ArrowForwardIos, Block, Error, FilterAlt, Search, Visibility } from "@mui/icons-material"
+import Topbar from "../components/topbar/Topbar"; 
+import { ArrowBackIos, ArrowForwardIos, Block, Error as MuiError, FilterAlt, Search, Visibility } from "@mui/icons-material" 
 import background from "../Assets/background.PNG";
 import ButtonMD from "../components/items/ButtonMD";
 import "./scrollbar.css"
@@ -359,10 +359,9 @@ function Wallet() {
                                         },
                                     }}
                                 >
-                                    {transactionhistory.map((item, index) => (
+                                    {transactionhistory.map((item) => (
                                         <>
                                             <Box
-                                                // key={index}
                                                 sx={{
                                                     mt: { xs: 1, md: 1 },
                                                     p: 0,
