@@ -48,7 +48,12 @@ function Restartgame() {
     const getBalls = () => {
         axios.get(`${url}contact_us/get_all_ball_images`)
             .then(response => console.log(response.data.data))
-            .catch(error => console.error('Error fetching data:', error));
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                toast.error('Failed to load ball images. Please try again.', {
+                    position: toast.POSITION.BOTTOM_CENTER
+                });
+            });
     }
 
     // schedule game
@@ -91,8 +96,8 @@ function Restartgame() {
             }
             )
             .catch(error => {
-                // setLoading(false);
-                toast.error(error, {
+                setLoading(false);
+                toast.error(error || 'Failed to load scheduled games.', {
                     position: toast.POSITION.BOTTOM_CENTER
                 });
             });
@@ -214,11 +219,9 @@ function Restartgame() {
                     })
                     .catch(error => {
                         setLoading(false);
-                        toast.error(error, {
-                            position: toast.POSITION.TOP_RIGHT
+                        toast.error(error || 'Failed to process payment.', {
+                            position: toast.POSITION.BOTTOM_CENTER
                         });
-
-                        console.log('There has been a problem with your fetch operation:', error);
                     });
             }, 2000)
 
@@ -234,32 +237,42 @@ function Restartgame() {
             console.log("msg", msg);
             setStatus(msg);
 
-            if (msg.status === "created") {
-                console.log("game-created"); // show triangle screen
-                navigate(`${endpoint}playgame`);
-            } else if (msg.status === "waiting") {
-                console.log("game-status-change"); // show waiting screen ss in phone if status is waiting
-                navigate(`${endpoint}waiting`);
-            } else if (msg.status === "started") {
-                console.log("game-started"); // if status is started then show animation
-                navigate(`${endpoint}gamestarted`);
-            } else if (msg.status === "result-anounced") {
-                console.log("result-anounced");
-                navigate(`${endpoint}winner`);
-            } else if (msg.status === "restart") {
-                console.log("game-restart"); // show restart game screen ss in phone
-                navigate(`${endpoint}restart`);
-            } else if (msg.status === "added-participants") {
-                console.log("added-participants");
-            } else if (msg.status === "deleted") {
-                console.log("game-deleted");
-                navigate(`${endpoint}dashboard`);
-            } else if (msg.status === "scheduled") {
-                console.log("game-scheduled");
-                navigate(`${endpoint}playgame`);
-            } else {
-                console.log("Unknown status");
+            switch (msg.status) {
+                case "created":
+                    console.log("game-created"); // show triangle screen
+                    navigate(`${endpoint}playgame`);
+                    break;
+                case "waiting":
+                    console.log("game-status-change"); // show waiting screen ss in phone if status is waiting
+                    navigate(`${endpoint}waiting`);
+                    break;
+                case "started":
+                    console.log("game-started"); // if status is started then show animation
+                    navigate(`${endpoint}gamestarted`);
+                    break;
+                case "result-anounced":
+                    console.log("result-anounced");
+                    navigate(`${endpoint}winner`);
+                    break;
+                case "restart":
+                    console.log("game-restart"); // show restart game screen ss in phone
+                    navigate(`${endpoint}restart`);
+                    break;
+                case "added-participants":
+                    console.log("added-participants");
+                    break;
+                case "deleted":
+                    console.log("game-deleted");
+                    navigate(`${endpoint}dashboard`);
+                    break;
+                case "scheduled":
+                    console.log("game-scheduled");
+                    navigate(`${endpoint}playgame`);
+                    break;
+                default:
+                    console.log("Unknown status");
             }
+
             console.log(":ddggfgf");
         };
 
@@ -294,7 +307,13 @@ function Restartgame() {
         }
 
         getBalls();
-        getScheduleGame(details);
+        try {
+            getScheduleGame(details);
+        } catch (error) {
+            toast.error('Failed to load scheduled games. Please try again.', {
+                position: toast.POSITION.BOTTOM_CENTER
+            });
+        }
 
     }, []);
 
@@ -479,11 +498,13 @@ function Restartgame() {
 
                                                 <Grid xs={6} md={6}>
                                                     <Stack direction="column">
-                                                        <TypographyMD variant='paragraph' label="0" color="#F5BC01" marginLeft={0} fontFamily="Rubik" fontSize="15px" fontWeight={500} align="right" />
 
-                                                        <TypographyMD variant='paragraph' label="400" color="#F5BC01" marginLeft={0} fontFamily="Rubik" fontSize="15px" fontWeight={500} align="right" />
+                                                        <TypographyMD variant='paragraph' label={`${game?.total_participants == null || undefined ? 0 : game?.total_participants}`} color="#F5BC01" marginLeft={0} fontFamily="Rubik" fontSize="15px" fontWeight={500} align="right" />
 
-                                                        <TypographyMD variant='paragraph' label="1235" color="#F5BC01" marginLeft={0} fontFamily="Rubik" fontSize="15px" fontWeight={500} align="right" />
+                                                        <TypographyMD variant='paragraph' label={`${game?.entry_fee == null || undefined ? 0 : game?.entry_fee}`} color="#F5BC01" marginLeft={0} fontFamily="Rubik" fontSize="15px" fontWeight={500} align="right" />
+
+                                                        <TypographyMD variant='paragraph' label={`${game?.game_id == null || undefined ? 0 : game?.game_id}`} color="#F5BC01" marginLeft={0} fontFamily="Rubik" fontSize="15px" fontWeight={500} align="right" />
+
                                                     </Stack>
                                                 </Grid>
                                             </Grid>
@@ -503,20 +524,20 @@ function Restartgame() {
                                         </Typography>
 
                                         <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
-                                            <TypographyMD variant='paragraph' label="You're ball is" color="#000000" marginLeft={0} fontFamily="Rubik" fontSize="25px" fontWeight={450} align="right" />
-                                            &nbsp;  <img src={selected} alt="..." style={{ width: "5vh" }} />
+                                            <TypographyMD variant='paragraph' label="You're ball is" color="#000000" marginLeft={0} fontFamily="Rubik" fontSize="15px" fontWeight={450} align="right" />
+                                            &nbsp;  <img src={selected} alt="..." style={{ width: "5vh", height: "5vh" }} />
                                         </div>
 
                                     </Box>
 
-                                    <Stack ml={{ xs: 0, sm: 15, md: 10 }}>
+                                    <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
                                         <Box
                                             sx={{
                                                 backgroundImage: `url(${triangle})`,
                                                 backgroundRepeat: "no-repeat",
-                                                backgroundSize: "cover",
+                                                backgroundSize: { xs: "contain", sm: "cover", md: "cover" },
                                                 backgroundPosition: "center", // Positioning the background image
-                                                width: { xs: "100%", sm: "50vh", md: "78%", lg: "85%" },
+                                                width: { xs: "100%", sm: "55vh", md: "70%", lg: "70%" },
                                                 height: { xs: "290px", sm: "330px", md: "485px" },
                                                 display: "flex", // Flexbox properties to center the content
                                                 alignItems: "center",
@@ -543,8 +564,11 @@ function Restartgame() {
                                                                         src={ball.imageUrl}
                                                                         alt={`Ball ${ball.id}`}
                                                                         sx={{
-                                                                            width: { xs: 35, md: 65 },
-                                                                            height: { xs: 30, md: 59 },
+                                                                            width: { xs: 30, sm: 40, md: 60 },
+                                                                            height: {
+                                                                                xs: 28, sm: 35, md: 55
+
+                                                                            },
                                                                             position: "relative",
                                                                             cursor: isDisabled ? "not-allowed" : "pointer",
                                                                             "&::after": isDisabled && {
@@ -584,7 +608,7 @@ function Restartgame() {
                                                 ))}
                                             </Box>
                                         </Box>
-                                    </Stack>
+                                    </div>
 
                                     {/* </div> */}
                                 </Grid>

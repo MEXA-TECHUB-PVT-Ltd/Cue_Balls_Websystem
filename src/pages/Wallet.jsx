@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
-import { Box, Button, Card, CardContent, Divider, Grid, IconButton, InputAdornment, Menu, MenuItem, OutlinedInput, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CircularProgress, Divider, Grid, IconButton, InputAdornment, Menu, MenuItem, OutlinedInput, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import TypographyMD from "../components/items/Typography";
 import Topbar from "../components/topbar/Topbar";
-import { ArrowBackIos, ArrowForwardIos, Block, Error, FilterAlt, Search, Visibility } from "@mui/icons-material"
+import { ArrowBackIos, ArrowForwardIos, Block, Error as MuiError, FilterAlt, Search, Visibility } from "@mui/icons-material"
 import background from "../Assets/background.PNG";
 import ButtonMD from "../components/items/ButtonMD";
 import "./scrollbar.css"
@@ -286,6 +286,16 @@ function Wallet() {
         return formattedDateTime;
     }
 
+    const [loader, setLoader] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoader(false);
+        }, 2000); // 2 seconds
+
+        return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }, []);
+
     return (
         <>
             <Sidebar
@@ -301,127 +311,131 @@ function Wallet() {
 
                         }}
                     >
-                        <Box pb={50} pl={{ xs: 5, md: 20 }} pr={{ xs: 5, md: 20 }}>
-                            {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '75vh' }}> */}
-                            <Typography variant='h6' align="center" color="#F5BC01" fontFamily="Pacifico" fontSize={{ xs: "27px", md: "50px" }} mt={1}   >
-                                My Wallet
-                            </Typography>
+                        {loader ? (
+                            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                                <CircularProgress />
+                            </div>
+                        ) : (
+                            <Box pb={50} pl={{ xs: 5, md: 20 }} pr={{ xs: 5, md: 20 }}>
+                                {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '75vh' }}> */}
+                                <Typography variant='h6' align="center" color="#F5BC01" fontFamily="Pacifico" fontSize={{ xs: "27px", md: "50px" }} mt={1}   >
+                                    My Wallet
+                                </Typography>
 
-                            <Card sx={{ mt: { xs: 2, md: 2 }, p: 0, borderRadius: "10px", boxShadow: "none", border: "1px solid #F5BC01", width: { xs: "100%", md: "100%" } }}>
-                                <CardContent>
-                                    <Stack direction="column">
+                                <Card sx={{ mt: { xs: 2, md: 2 }, p: 0, borderRadius: "10px", boxShadow: "none", border: "1px solid #F5BC01", width: { xs: "100%", md: "100%" } }}>
+                                    <CardContent>
+                                        <Stack direction="column">
 
-                                        <Typography variant='h6' align="center" color="gray" fontFamily="Rubik" fontSize={{ xs: "20px", md: "20px" }} mt={1}   >
-                                            Your Balance
-                                        </Typography>
+                                            <Typography variant='h6' align="center" color="gray" fontFamily="Rubik" fontSize={{ xs: "20px", md: "20px" }} mt={1}   >
+                                                Your Balance
+                                            </Typography>
 
-                                        <Typography variant='h6' align="center" color="#F5BC01" fontFamily="Rubik" fontSize={{ xs: "27px", md: "47px" }} fontWeight="57px"  >
-                                            $ {Number(balance.wallet).toFixed(2)}
-                                        </Typography>
+                                            <Typography variant='h6' align="center" color="#F5BC01" fontFamily="Rubik" fontSize={{ xs: "27px", md: "47px" }} fontWeight="57px"  >
+                                                $ {Number(balance.wallet).toFixed(2)}
+                                            </Typography>
 
+                                        </Stack>
+
+                                        <Grid container spacing={0}>
+                                            <Grid xs={6} md={6} align="center">
+                                                <ButtonMD variant="contained" title="Withdraw" width="80%" type="submit" borderColor="orange" backgroundColor="orange" borderRadius="10px" disabled={loading} onClickTerm={handleopenmodalwithdraw} />
+                                            </Grid>
+
+                                            <Grid xs={6} md={6} align="center">
+                                                <ButtonMD variant="contained" title="Deposit" width="80%" type="submit" borderColor="orange" backgroundColor="orange" borderRadius="10px" disabled={loading} onClickTerm={handleopenmodaldeposit} />
+                                            </Grid>
+                                        </Grid>
+                                    </CardContent>
+                                </Card>
+
+                                {/* </div> */}
+
+                                <Typography variant='h6' align="left" color="#000000" fontFamily="Rubik" fontSize={{ xs: "20px", md: "28px" }} mt={1}   >
+                                    Transaction History
+                                </Typography>
+
+                                <Box backgroundColor="" height="255px">
+                                    <Stack
+                                        sx={{
+                                            height: '255px', // Set a specific height for the stack
+                                            overflowY: 'auto', // Enable vertical scrolling
+                                            scrollbarWidth: 'thin', // Firefox
+                                            scrollbarColor: 'transparent transparent', // For Firefox
+                                            '&::-webkit-scrollbar': {
+                                                width: '8px', // Width of the scrollbar
+                                                backgroundColor: 'transparent', // Make the scrollbar itself transparent
+                                            },
+                                            '&::-webkit-scrollbar-thumb': {
+                                                backgroundColor: 'transparent', // Make the scrollbar thumb transparent
+                                                borderRadius: '10px',
+                                            },
+                                            '&::-webkit-scrollbar-track': {
+                                                backgroundColor: 'transparent', // Make the scrollbar track transparent
+                                            },
+                                        }}
+                                    >
+                                        {transactionhistory.map((item) => (
+                                            <>
+                                                <Box
+                                                    sx={{
+                                                        mt: { xs: 1, md: 1 },
+                                                        p: 0,
+                                                        borderRadius: '10px',
+                                                        boxShadow: 'none',
+                                                        border: '1px solid #F5BC01',
+                                                        width: { xs: '100%', md: '100%' },
+                                                    }}
+                                                >
+
+                                                    <div style={{ display: "flex", justifyContent: "right", alignContent: "right" }}>
+                                                        <Box align="right" sx={{ mt: 0.1, mr: 0.1, pl: 1, pr: 1, width: "fit-content", borderBottomLeftRadius: "10px", borderTopRightRadius: "10px", backgroundColor: `${item.type == "deposit" ? "#00C57F" : "#F5BC01"}` }}>
+                                                            <Typography
+                                                                variant="body"
+                                                                align="right"
+                                                                color="white"
+                                                                fontFamily="Rubik"
+                                                                fontSize={11}
+                                                                letterSpacing="1px"
+                                                            >
+                                                                {item.type}
+                                                            </Typography>
+                                                        </Box>
+                                                    </div>
+
+                                                    <Grid container spacing={0} p={1} pb={2}>
+                                                        <Grid item xs={4} md={6} align="left">
+                                                            <Typography
+                                                                variant="h6"
+                                                                align="left"
+                                                                color="#000000"
+                                                                fontFamily="Rubik"
+                                                                fontSize={{ xs: "12px", md: "15px" }}
+                                                            >
+                                                                $    {item.amount}
+                                                            </Typography>
+                                                        </Grid>
+                                                        <Grid item xs={8} md={6} align="right">
+                                                            <Typography
+                                                                variant="h6"
+                                                                align="right"
+                                                                color="gray"
+                                                                fontFamily="Rubik"
+                                                                fontSize={{ xs: "12px", md: "15px" }}
+                                                            >
+                                                                {formatDate(item.created_at)}
+                                                            </Typography>
+                                                        </Grid>
+                                                    </Grid>
+                                                </Box>
+                                            </>
+                                        ))}
                                     </Stack>
+                                </Box>
 
-                                    <Grid container spacing={0}>
-                                        <Grid xs={6} md={6} align="center">
-                                            <ButtonMD variant="contained" title="Withdraw" width="80%" type="submit" borderColor="orange" backgroundColor="orange" borderRadius="10px" disabled={loading} onClickTerm={handleopenmodalwithdraw} />
-                                        </Grid>
 
-                                        <Grid xs={6} md={6} align="center">
-                                            <ButtonMD variant="contained" title="Deposit" width="80%" type="submit" borderColor="orange" backgroundColor="orange" borderRadius="10px" disabled={loading} onClickTerm={handleopenmodaldeposit} />
-                                        </Grid>
-                                    </Grid>
-                                </CardContent>
-                            </Card>
 
-                            {/* </div> */}
-
-                            <Typography variant='h6' align="left" color="#000000" fontFamily="Rubik" fontSize={{ xs: "20px", md: "28px" }} mt={1}   >
-                                Transaction History
-                            </Typography>
-
-                            <Box backgroundColor="" height="255px">
-                                <Stack
-                                    sx={{
-                                        height: '255px', // Set a specific height for the stack
-                                        overflowY: 'auto', // Enable vertical scrolling
-                                        scrollbarWidth: 'thin', // Firefox
-                                        scrollbarColor: 'transparent transparent', // For Firefox
-                                        '&::-webkit-scrollbar': {
-                                            width: '8px', // Width of the scrollbar
-                                            backgroundColor: 'transparent', // Make the scrollbar itself transparent
-                                        },
-                                        '&::-webkit-scrollbar-thumb': {
-                                            backgroundColor: 'transparent', // Make the scrollbar thumb transparent
-                                            borderRadius: '10px',
-                                        },
-                                        '&::-webkit-scrollbar-track': {
-                                            backgroundColor: 'transparent', // Make the scrollbar track transparent
-                                        },
-                                    }}
-                                >
-                                    {transactionhistory.map((item, index) => (
-                                        <>
-                                            <Box
-                                                // key={index}
-                                                sx={{
-                                                    mt: { xs: 1, md: 1 },
-                                                    p: 0,
-                                                    borderRadius: '10px',
-                                                    boxShadow: 'none',
-                                                    border: '1px solid #F5BC01',
-                                                    width: { xs: '100%', md: '100%' },
-                                                }}
-                                            >
-
-                                                <div style={{ display: "flex", justifyContent: "right", alignContent: "right" }}>
-                                                    <Box align="right" sx={{ mt: 0.1, mr: 0.1, pl: 1, pr: 1, width: "fit-content", borderBottomLeftRadius: "10px", borderTopRightRadius: "10px", backgroundColor: `${item.type == "deposit" ? "#00C57F" : "#F5BC01"}` }}>
-                                                        <Typography
-                                                            variant="body"
-                                                            align="right"
-                                                            color="white"
-                                                            fontFamily="Rubik"
-                                                            fontSize={11}
-                                                            letterSpacing="1px"
-                                                        >
-                                                            {item.type}
-                                                        </Typography>
-                                                    </Box>
-                                                </div>
-
-                                                <Grid container spacing={0} p={1} pb={2}>
-                                                    <Grid item xs={4} md={6} align="left">
-                                                        <Typography
-                                                            variant="h6"
-                                                            align="left"
-                                                            color="#000000"
-                                                            fontFamily="Rubik"
-                                                            fontSize={{ xs: "12px", md: "15px" }}
-                                                        >
-                                                            $    {item.amount}
-                                                        </Typography>
-                                                    </Grid>
-                                                    <Grid item xs={8} md={6} align="right">
-                                                        <Typography
-                                                            variant="h6"
-                                                            align="right"
-                                                            color="gray"
-                                                            fontFamily="Rubik"
-                                                            fontSize={{ xs: "12px", md: "15px" }}
-                                                        >
-                                                            {formatDate(item.created_at)}
-                                                        </Typography>
-                                                    </Grid>
-                                                </Grid>
-                                            </Box>
-                                        </>
-                                    ))}
-                                </Stack>
                             </Box>
-
-
-
-                        </Box>
-
+                        )}
                     </Box >
                 }
             />
@@ -448,6 +462,7 @@ function Wallet() {
                                         variant="outlined"
                                         label=""
                                         placeholder="Amount"
+                                        step="0.01"
                                     />
 
                                     <div style={{ display: "flex", justifyContent: "center", alignContent: "center", marginTop: "5px" }}>
@@ -485,6 +500,7 @@ function Wallet() {
                                         variant="outlined"
                                         label=""
                                         placeholder="Amount"
+                                        step="0.01"
                                     />
 
                                     <div style={{ display: "flex", justifyContent: "center", alignContent: "center", marginTop: "5px" }}>

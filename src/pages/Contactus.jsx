@@ -114,44 +114,54 @@ function Contactus() {
     useEffect(() => {
         // Initialize the socket connection
         const socket = io(url);
-    
+
         // Define the message listener
         const messageListener = (msg) => {
             console.log("msg", msg);
             setStatus(msg);
-    
-            if (msg.status === "created") {
-                console.log("game-created"); // show triangle screen
-                navigate(`${endpoint}playgame`);
-            } else if (msg.status === "waiting") {
-                console.log("game-status-change"); // show waiting screen ss in phone if status is waiting
-                navigate(`${endpoint}waiting`);
-            } else if (msg.status === "started") {
-                console.log("game-started"); // if status is started then show animation
-                navigate(`${endpoint}gamestarted`);
-            } else if (msg.status === "result-anounced") {
-                console.log("result-anounced");
-                navigate(`${endpoint}winner`);
-            } else if (msg.status === "restart") {
-                console.log("game-restart"); // show restart game screen ss in phone
-                navigate(`${endpoint}restart`);
-            } else if (msg.status === "added-participants") {
-                console.log("added-participants");
-            } else if (msg.status === "deleted") {
-                console.log("game-deleted");
-                navigate(`${endpoint}dashboard`);
-            } else if (msg.status === "scheduled") {
-                console.log("game-scheduled");
-                navigate(`${endpoint}playgame`);
-            } else {
-                console.log("Unknown status");
+
+            switch (msg.status) {
+                case "created":
+                    console.log("game-created"); // show triangle screen
+                    navigate(`${endpoint}playgame`);
+                    break;
+                case "waiting":
+                    console.log("game-status-change"); // show waiting screen ss in phone if status is waiting
+                    navigate(`${endpoint}waiting`);
+                    break;
+                case "started":
+                    console.log("game-started"); // if status is started then show animation
+                    navigate(`${endpoint}gamestarted`);
+                    break;
+                case "result-anounced":
+                    console.log("result-anounced");
+                    navigate(`${endpoint}winner`);
+                    break;
+                case "restart":
+                    console.log("game-restart"); // show restart game screen ss in phone
+                    navigate(`${endpoint}restart`);
+                    break;
+                case "added-participants":
+                    console.log("added-participants");
+                    break;
+                case "deleted":
+                    console.log("game-deleted");
+                    navigate(`${endpoint}dashboard`);
+                    break;
+                case "scheduled":
+                    console.log("game-scheduled");
+                    navigate(`${endpoint}playgame`);
+                    break;
+                default:
+                    console.log("Unknown status");
             }
+
             console.log(":ddggfgf");
         };
-    
+
         // Set up the socket event listener
         socket.on("received-data", messageListener);
-    
+
         // Cleanup function to remove the message listener and disconnect socket
         return () => {
             socket.off("received-data", messageListener);
@@ -173,103 +183,101 @@ function Contactus() {
                             overflow: "hidden"
                         }}
                     >
-                        <Container>
-                            <Typography variant='h6' color="#F5BC01" align="center" fontFamily="Pacifico" fontSize={{ xs: "27px", sm: "37px", md: "57px" }} pt={4} mb={1}  >
-                                Contact Us
-                            </Typography>
+                        <Typography variant='h6' color="#F5BC01" align="center" fontFamily="Pacifico" fontSize={{ xs: "27px", sm: "37px", md: "57px" }} pt={4} mb={1}  >
+                            Contact Us
+                        </Typography>
 
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
-                                <Card sx={{ mt: { xs: 0, md: 0 }, p: 0, backgroundColor: "transparent", borderRadius: "10px", boxShadow: "none", border: "1px solid transparent", width: { xs: "90%", md: "50%" } }}>
-                                    <CardContent>
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '70vh' }}>
+                            <Card sx={{ mt: { xs: 0, md: 0 }, p: 0, backgroundColor: "transparent", borderRadius: "10px", boxShadow: "none", border: "1px solid transparent", width: { xs: "90%", md: "50%" } }}>
+                                <CardContent>
 
-                                        <form onSubmit={formik.handleSubmit} >
-                                            <Grid container spacing={0}>
-                                                <Grid item xs={12} md={12}>
-                                                    <Stack direction="column">
+                                    <form onSubmit={formik.handleSubmit} >
+                                        <Grid container spacing={0}>
+                                            <Grid item xs={12} md={12}>
+                                                <Stack direction="column">
 
-                                                        <Stack direction="row" spacing={2}>
-
-                                                            <div style={{ marginBottom: "5px" }}>
-                                                                <Typography variant='h6' color="gray" align="left" fontFamily="Rubik" fontSize="17px" mb={1}>
-                                                                    First Name
-                                                                </Typography>
-                                                                <InputfieldCom
-                                                                    autoFocus={false}
-                                                                    value={formik.values.firstname}
-                                                                    onChngeterm={(e) => formik.setFieldValue("firstname", e.target.value)}
-                                                                    error={formik.touched.firstname && Boolean(formik.errors.firstname)}
-                                                                    helperText={formik.touched.firstname && formik.errors.firstname}
-                                                                    type="text"
-                                                                    variant="outlined"
-                                                                    label=""
-                                                                />
-                                                            </div>
-
-                                                            <div style={{ marginLeft: "50px", marginBottom: "5px" }}>
-                                                                <Typography variant='h6' color="gray" align="left" fontFamily="Rubik" fontSize="17px" mb={1}>
-                                                                    Last Name
-                                                                </Typography>
-                                                                <InputfieldCom
-                                                                    autoFocus={false}
-                                                                    value={formik.values.lastname}
-                                                                    onChngeterm={(e) => formik.setFieldValue("lastname", e.target.value)}
-                                                                    error={formik.touched.lastname && Boolean(formik.errors.lastname)}
-                                                                    helperText={formik.touched.lastname && formik.errors.lastname}
-                                                                    type="text"
-                                                                    variant="outlined"
-                                                                    label=""
-                                                                />
-                                                            </div>
-
-                                                        </Stack>
-
+                                                    <Stack direction="row" spacing={2} width="100%">
                                                         <div style={{ marginBottom: "5px" }}>
-                                                            <Typography variant='h6' color="gray" align="left" fontFamily="Rubik" fontSize="17px" mb={1}>
-                                                                Email
+                                                            <Typography variant='h6' color="gray" align="left" fontFamily="Rubik" fontSize={{ xs: "13px", md: "17px" }} mb={1}>
+                                                                First Name
                                                             </Typography>
                                                             <InputfieldCom
                                                                 autoFocus={false}
-                                                                value={`${profiledetails?.data?.email}`}
-                                                                // onChngeterm={(e) => formik.setFieldValue("email", e.target.value)}
-                                                                // error={formik.touched.email && Boolean(formik.errors.email)}
-                                                                // helperText="You cannot update your email address"
+                                                                value={formik.values.firstname}
+                                                                onChngeterm={(e) => formik.setFieldValue("firstname", e.target.value)}
+                                                                error={formik.touched.firstname && Boolean(formik.errors.firstname)}
+                                                                helperText={formik.touched.firstname && formik.errors.firstname}
                                                                 type="text"
                                                                 variant="outlined"
-                                                                label=""
-                                                                disabled={true}
-                                                            />
-                                                        </div>
-
-                                                        <div style={{ marginBottom: "5px" }}>
-                                                            <Typography variant='h6' color="gray" align="left" fontFamily="Rubik" fontSize="17px" mb={1}>
-                                                                Message
-                                                            </Typography>
-                                                            <InputfieldCom
-                                                                autoFocus={false}
-                                                                value={formik.values.message}
-                                                                onChngeterm={(e) => formik.setFieldValue("message", e.target.value)}
-                                                                error={formik.touched.message && Boolean(formik.errors.message)}
-                                                                helperText={formik.touched.message && formik.errors.message}
-                                                                type="text"
-                                                                variant="outlined"
-                                                                multiline
-                                                                rows={4}
                                                                 label=""
                                                             />
                                                         </div>
 
-                                                        <div style={{ display: "flex", justifyContent: "center", alignContent: "center", marginTop: "20px" }}>
-                                                            <ButtonMD variant="contained" title="Send" width="50%" type="submit" borderColor="orange" backgroundColor="orange" borderRadius="10px" disabled={loading} onClick={formik.handleSubmit} />
+                                                        <Box sx={{ flexGrow: 1 }} />
+
+                                                        <div style={{ marginBottom: "5px" }}>
+                                                            <Typography variant='h6' color="gray" align="left" fontFamily="Rubik" fontSize={{ xs: "13px", md: "17px" }} mb={1}>
+                                                                Last Name
+                                                            </Typography>
+                                                            <InputfieldCom
+                                                                autoFocus={false}
+                                                                value={formik.values.lastname}
+                                                                onChngeterm={(e) => formik.setFieldValue("lastname", e.target.value)}
+                                                                error={formik.touched.lastname && Boolean(formik.errors.lastname)}
+                                                                helperText={formik.touched.lastname && formik.errors.lastname}
+                                                                type="text"
+                                                                variant="outlined"
+                                                                label=""
+                                                            />
                                                         </div>
                                                     </Stack>
-                                                </Grid>
-                                            </Grid>
-                                        </form>
 
-                                    </CardContent>
-                                </Card>
-                            </div>
-                        </Container>
+                                                    <div style={{ marginBottom: "5px" }}>
+                                                        <Typography variant='h6' color="gray" align="left" fontFamily="Rubik" fontSize={{ xs: "13px", md: "17px" }} mb={1}>
+                                                            Email
+                                                        </Typography>
+                                                        <InputfieldCom
+                                                            autoFocus={false}
+                                                            value={`${profiledetails?.data?.email}`}
+                                                            // onChngeterm={(e) => formik.setFieldValue("email", e.target.value)}
+                                                            // error={formik.touched.email && Boolean(formik.errors.email)}
+                                                            // helperText="You cannot update your email address"
+                                                            type="text"
+                                                            variant="outlined"
+                                                            label=""
+                                                            disabled={true}
+                                                        />
+                                                    </div>
+
+                                                    <div style={{ marginBottom: "5px" }}>
+                                                        <Typography variant='h6' color="gray" align="left" fontFamily="Rubik" fontSize={{ xs: "13px", md: "17px" }} mb={1}>
+                                                            Message
+                                                        </Typography>
+                                                        <InputfieldCom
+                                                            autoFocus={false}
+                                                            value={formik.values.message}
+                                                            onChngeterm={(e) => formik.setFieldValue("message", e.target.value)}
+                                                            error={formik.touched.message && Boolean(formik.errors.message)}
+                                                            helperText={formik.touched.message && formik.errors.message}
+                                                            type="text"
+                                                            variant="outlined"
+                                                            multiline
+                                                            rows={4}
+                                                            label=""
+                                                        />
+                                                    </div>
+
+                                                    <div style={{ display: "flex", justifyContent: "center", alignContent: "center", marginTop: "5px" }}>
+                                                        <ButtonMD variant="contained" title="Send" width="50%" type="submit" borderColor="orange" backgroundColor="orange" borderRadius="10px" disabled={loading} onClick={formik.handleSubmit} />
+                                                    </div>
+                                                </Stack>
+                                            </Grid>
+                                        </Grid>
+                                    </form>
+
+                                </CardContent>
+                            </Card>
+                        </div>
                     </Box>
                 }
             />
