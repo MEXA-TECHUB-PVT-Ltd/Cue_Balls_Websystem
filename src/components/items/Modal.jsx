@@ -24,10 +24,10 @@ function ModalAdd({ data, open, onClose, title }) {
             aria-labelledby="modal-modal-title"
             aria-describedby="modal-modal-description"
         >
-            <Box width={{ xs: 400, md: 500, lg: 500, xl: 500 }} height="auto" sx={style}>
+            <Box width={{ xs: 350, md: 500, lg: 500, xl: 500 }} height="auto" sx={style}>
 
                 <Box sx={{ backgroundColor: "transparent", borderTopLeftRadius: 10, borderTopRightRadius: 10 }}>
-                    <Grid container spacing={0} p={2}>
+                    <Grid container spacing={0} p={1}>
                         <Grid xs={6} align="left">
                             <TypographyMD variant='paragraph' label={title} color="#F5BC01" marginLeft={0} fontSize="17px" fontFamily="Rubik" fontWeight={550} align="left" />
                         </Grid>

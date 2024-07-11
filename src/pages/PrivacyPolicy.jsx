@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
-import { Box, Divider, Grid, IconButton, Typography, InputAdornment, OutlinedInput, Stack, Card, CardContent, Container } from "@mui/material";
+import { Box, Divider, Grid, IconButton, Typography, InputAdornment, OutlinedInput, Stack, Card, CardContent, Container, CircularProgress } from "@mui/material";
 import TypographyMD from "../components/items/Typography";
 import Topbar from "../components/topbar/Topbar";
 import { Search } from "@mui/icons-material"
@@ -111,6 +111,16 @@ function PrivacyPolicy() {
         };
     }, [status]);
 
+    const [loader, setLoader] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setLoader(false);
+        }, 2000); // 2 seconds
+
+        return () => clearTimeout(timer); // Cleanup the timer on unmount
+    }, []);
+
     return (
         <>
             <Sidebar
@@ -126,12 +136,18 @@ function PrivacyPolicy() {
 
                             </Grid>
 
-                            <Grid container spacing={0} sx={{ pl: 2, pr: 2 }} pt={0}>
-                                <Typography variant="body1" fontFamily="Rubik">
-                                    <div dangerouslySetInnerHTML={{ __html: content.content }} />
-                                    {/* <div>{sanitizeHtml(content.content)}</div> */}
-                                </Typography>
-                            </Grid>
+                            {loader ? (
+                                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+                                    <CircularProgress />
+                                </div>
+                            ) : (
+                                <Grid container spacing={0} sx={{ pl: 2, pr: 2 }} pt={0}>
+                                    <Typography variant="body1" fontFamily="Rubik">
+                                        <div dangerouslySetInnerHTML={{ __html: content.content }} />
+                                        {/* <div>{sanitizeHtml(content.content)}</div> */}
+                                    </Typography>
+                                </Grid>
+                            )}
                         </Container>
                     </Box>
 

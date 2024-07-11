@@ -28,7 +28,7 @@ function ModalWarning({ data, open, onClose, title, subheading }) {
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box width={{ xs: 400, md: 450, lg: 450, xl: 450 }} height="auto" sx={styleaddsuccess}>
+                <Box width={{ xs: 350, md: 450, lg: 450, xl: 450 }} height="auto" sx={styleaddsuccess}>
                     <Grid container spacing={0} p={2}>
 
                         <Grid xs={12} align="right">

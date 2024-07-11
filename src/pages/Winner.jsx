@@ -47,8 +47,6 @@ function Winner() {
                 });
             });
 
-
-
     }
 
     useEffect(() => {
@@ -251,7 +249,7 @@ function Winner() {
                                 >
                                     {item?.game_status == "House Wins" ? "House Wins" :
                                         <>
-                                            Winners &nbsp;&nbsp; {item?.total_participants}
+                                            Winners &nbsp;&nbsp; {item?.user_selected_winning_ball}
                                         </>
                                     }
 
