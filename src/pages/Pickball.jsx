@@ -444,8 +444,13 @@ function Pickball() {
                                                 </Typography>
 
                                                 <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
-                                                    <TypographyMD variant='paragraph' label="You're ball is" color="#000000" marginLeft={0} fontFamily="Rubik" fontSize="25px" fontWeight={450} align="right" />
-                                                    &nbsp;  <img src={selected} alt="..." style={{ width: "5vh", height: "5vh" }} />
+                                                    {selected?.length == 0 || selected == null || undefined ? <></>
+                                                        :
+                                                        <>
+                                                            <TypographyMD variant='paragraph' label="You're ball is" color="#000000" marginLeft={0} fontFamily="Rubik" fontSize="25px" fontWeight={450} align="right" />
+                                                            & nbsp;  <img src={selected} alt="..." style={{ width: "5vh", height: "5vh" }} />
+                                                        </>
+                                                    }
                                                 </div>
                                             </div>
 
@@ -558,8 +563,13 @@ function Pickball() {
                                             </Typography>
 
                                             <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
-                                                <TypographyMD variant='paragraph' label="You're ball is" color="#000000" marginLeft={0} fontFamily="Rubik" fontSize="25px" fontWeight={450} align="right" />
-                                                &nbsp;  <img src={selected} alt="..." style={{ width: "5vh", height: "5vh" }} />
+                                                {selected?.length == 0 || selected == null || undefined ? <></>
+                                                    :
+                                                    <>
+                                                        <TypographyMD variant='paragraph' label="You're ball is" color="#000000" marginLeft={0} fontFamily="Rubik" fontSize="25px" fontWeight={450} align="right" />
+                                                        &nbsp;  <img src={selected} alt="..." style={{ width: "5vh", height: "5vh" }} />
+                                                    </>
+                                                }
                                             </div>
 
                                         </Box>
