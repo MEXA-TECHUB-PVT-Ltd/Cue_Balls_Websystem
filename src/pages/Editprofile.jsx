@@ -151,7 +151,7 @@ function Editprofile() {
                 default:
                     console.log("Unknown status");
             }
-            
+
             console.log(":ddggfgf");
         };
 
@@ -226,7 +226,7 @@ function Editprofile() {
                                                         </div>
 
                                                         <div style={{ display: "flex", justifyContent: "center", alignContent: "center", marginTop: "30px" }}>
-                                                            <ButtonMD variant="contained" title="Edit profile" width="50%" type="submit" borderColor="orange" backgroundColor="orange" borderRadius="10px" disabled={loading} onClick={formik.handleSubmit} />
+                                                            <ButtonMD variant="contained" title="Edit profile" width={{ xs: "90%", md: "50%" }} type="submit" borderColor="orange" backgroundColor="orange" borderRadius="10px" disabled={loading} onClick={formik.handleSubmit} />
                                                         </div>
                                                     </Stack>
                                                 </Grid>

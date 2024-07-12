@@ -34,9 +34,9 @@ function Contactus() {
         firstname: yup
             .string('Enter your firstname')
             .required('First name is required'),
-        lastname: yup
-            .string('Enter your lastname')
-            .required('Last name is required'),
+        // lastname: yup
+        //     .string('Enter your lastname')
+        //     .required('Last name is required'),
         message: yup
             .string('Enter your message')
             .required('Message is required'),
@@ -45,7 +45,7 @@ function Contactus() {
     const formik = useFormik({
         initialValues: {
             firstname: '',
-            lastname: '',
+            // lastname: '',
             message: ''
         },
         validationSchema: validationSchema,

@@ -1,7 +1,7 @@
 {
   "name": "cueballs",
   "version": "0.1.0",
-  "homepage": "https://fantaro.net",
+  "homepage": "https://cue-ball-web.netlify.app",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.0",
