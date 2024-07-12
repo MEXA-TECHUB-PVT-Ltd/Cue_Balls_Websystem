@@ -35,8 +35,12 @@ function Winner() {
             .then(response => response.json())
             .then(response => {
 
-                console.log("winning user", response.data);
-                setWinningdetails(response.data);
+                if (response.data.length == 0 || response.data == undefined || null) {
+                    navigate(`${endpoint}dashboard`);
+                } else {
+                    console.log("winning user", response.data);
+                    setWinningdetails(response.data);
+                }
 
             }
             )
