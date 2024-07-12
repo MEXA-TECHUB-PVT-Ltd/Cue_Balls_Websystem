@@ -46,6 +46,7 @@ function ButtonMD({ type, disabled, title, variant, onClickTerm, startIcon, font
                                     disabled={disabled}
                                     startIcon={<ClipLoader color={color} loading={disabled} css={override} size={15} />}
                                     onClick={onClickTerm}
+                                    className="btn"
                                     style={{
                                         padding: "15px 30px",
                                         borderColor: { borderColor },
@@ -83,6 +84,8 @@ function ButtonMD({ type, disabled, title, variant, onClickTerm, startIcon, font
                                         className="btn1"
                                         style={{
                                             backgroundColor: "#FFEA96", color: "#060502",
+                                            border: "4px solid #F5BC01",
+                                            boxShadow: "none",
                                             fontWeight: 600,
                                             fontSize: "13px",
                                             borderRadius: borderRadius,
@@ -98,9 +101,10 @@ function ButtonMD({ type, disabled, title, variant, onClickTerm, startIcon, font
                                         startIcon={startIcon}
                                         onClick={onClickTerm}
                                         className="btn"
-
                                         style={{
                                             backgroundColor: "#FFEA96", color: "#060502",
+                                            border: "4px solid #F5BC01",
+                                            boxShadow: "none",
                                             fontWeight: 600,
                                             fontSize: "13px",
                                             borderRadius: borderRadius,

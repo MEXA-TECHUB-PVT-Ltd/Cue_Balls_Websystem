@@ -205,13 +205,13 @@ function Login() {
                             <>
 
                                 <div style={{ display: "flex", justifyContent: "center", paddingBottom: 0 }}>
-                                    <TypographyMD variant='paragraph' label="Sign In to your Account" color="white" marginLeft={0} fontFamily="Rubik" fontSize="33px" fontWeight={450} align="center" />
+                                    <TypographyMD variant='paragraph' label="Sign In to your Account" color="white" marginLeft={0} fontFamily="Rubik" fontSize={{ xs: "20px", md: "33px" }} fontWeight={450} align="center" />
                                 </div>
 
                                 <Box sx={{ width: "100%", display: "flex", justifyContent: "center", paddingBottom: 3 }}>
-                                    <TypographyMD variant='paragraph' label="Don’t have an account? " color="white" marginLeft={0} fontFamily="Rubik" fontSize="16px" fontWeight={400} align="center" />
+                                    <TypographyMD variant='paragraph' label="Don’t have an account? " color="white" marginLeft={0} fontFamily="Rubik" fontSize={{ xs: "12px", md: "16px" }} fontWeight={400} align="center" />
                                     <NavLink to={`${endpoint}signup`} style={{ textDecoration: "none" }}>
-                                        <TypographyMD variant='paragraph' label=" Create Account" color="#FFE064" marginLeft={0} fontFamily="Rubik" fontSize="16px" fontWeight={400} align="center" />
+                                        <TypographyMD variant='paragraph' label=" Create Account" color="#FFE064" marginLeft={0} fontFamily="Rubik" fontSize={{ xs: "12px", md: "16px" }} fontWeight={400} align="center" />
                                     </NavLink>
                                 </Box>
 
@@ -275,9 +275,9 @@ function Login() {
                                 <Box sx={{ display: "flex", justifyContent: "center", paddingTop: 2 }}>
                                     <ButtonMD
                                         variant="outlined"
-                                        title="Sign in With Google" width="80%"
+                                        title="Sign in With Google" width={{ xs: "100%", md: "80%" }}
                                         color="primary"
-                                        startIcon={<Google />}
+                                        startIcon={<Google fontSize="12px" />}
                                         onClickTerm={googleHandler}
                                         disabled={googleLoading}
                                     />

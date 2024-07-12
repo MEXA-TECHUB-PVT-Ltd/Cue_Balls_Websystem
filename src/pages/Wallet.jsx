@@ -354,7 +354,7 @@ function Wallet() {
                                     Transaction History
                                 </Typography>
 
-                                <Box backgroundColor="" height="255px">
+                                <Box backgroundColor="" display="flex" flexDirection="column" flexGrow={1} height="100%">
                                     <Stack
                                         sx={{
                                             height: '255px', // Set a specific height for the stack
@@ -431,8 +431,6 @@ function Wallet() {
                                         ))}
                                     </Stack>
                                 </Box>
-
-
 
                             </Box>
                         )}

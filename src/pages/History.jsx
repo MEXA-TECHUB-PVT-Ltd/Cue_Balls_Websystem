@@ -229,14 +229,14 @@ function History() {
                                 <CircularProgress />
                             </div>
                         ) : (
-                            <Box pb={50} pl={{ xs: 5, md: 20 }} pr={{ xs: 5, md: 20 }}>
+                            <Box pb={5} pl={{ xs: 5, md: 20 }} pr={{ xs: 5, md: 20 }} display="flex" flexDirection="column" flexGrow={1} height="100%">
                                 {/* <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '75vh' }}> */}
                                 <Typography variant='h6' align="center" color="#F5BC01" fontFamily="Pacifico" fontSize={{ xs: "27px", md: "50px" }} mt={1}   >
                                     History
                                 </Typography>
 
                                 {history?.length == 0 || history == null || undefined ?
-                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '80vh' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}>
 
                                         <img src={balls} alt="Balls" style={{ width: "50vh", marginBottom: '20px' }} />
 
@@ -260,8 +260,27 @@ function History() {
 
                                         <Box mt={2} backgroundColor=" "
 
+                                            // sx={{
+                                            //     flex: 1,
+                                            //     overflowY: 'auto',
+                                            //     scrollbarWidth: 'thin', // Firefox
+                                            //     scrollbarColor: 'transparent transparent', // For Firefox
+                                            //     '&::-webkit-scrollbar': {
+                                            //         width: '8px',
+                                            //         backgroundColor: 'transparent',
+                                            //     },
+                                            //     '&::-webkit-scrollbar-thumb': {
+                                            //         backgroundColor: 'transparent',
+                                            //         borderRadius: '10px',
+                                            //     },
+                                            //     '&::-webkit-scrollbar-track': {
+                                            //         backgroundColor: 'transparent',
+                                            //     },
+                                            // }}
+
                                             sx={{
-                                                height: { xs: "450px", sm: "600px", md: '500px', lg: "950px" }, // Set a specific height for the stack
+                                                height: { xs: "450px", sm: "600px", md: '600px', lg: "950px" }, // Set a specific height for the stack
+                                                flex: 1,
                                                 overflowY: 'auto', // Enable vertical scrolling
                                                 scrollbarWidth: 'thin', // Firefox
                                                 scrollbarColor: 'transparent transparent', // For Firefox
@@ -291,7 +310,7 @@ function History() {
 
                                                             <Grid xs={9} md={9} align="right" pt={1}>
                                                                 <Grid container xs={12} md={9} justifyContent="flex-end">
-                                                                    <Grid item xs={7} md={7}>
+                                                                    <Grid item xs={7} md={8}>
                                                                         <Stack direction="column">
                                                                             <Typography variant='body' align="left" color="gray" fontFamily="Rubik" fontWeight={450} fontSize={{ xs: 13, md: 20 }}>
                                                                                 Game ID
@@ -306,8 +325,8 @@ function History() {
                                                                         </Stack>
                                                                     </Grid>
 
-                                                                    <Grid item xs={5} md={5} align="left">
-                                                                        <div style={{ display: "flex", justifyContent: "right", alignContent: "right" }}>
+                                                                    <Grid item xs={5} md={4} align="left">
+                                                                        <div style={{ display: "flex", justifyContent: "start", alignContent: "start" }}>
 
 
                                                                             <Stack direction="column">
