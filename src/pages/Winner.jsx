@@ -174,7 +174,7 @@ function Winner() {
 
                                                 $  {item?.game_status == "House Wins" ? "0" :
                                                     <>
-                                                        {item?.winning_amount_single}
+                                                        {item?.winning_amount}
                                                     </>
                                                 }
                                             </Typography>
@@ -266,7 +266,8 @@ function Winner() {
                                     fontSize="20px"
                                     mb={2}
                                 >
-                                    Winning Amount &nbsp;&nbsp; $ {item?.winning_amount}
+
+                                    Winning Amount &nbsp;&nbsp; {item.game_status == "House Win" ? 0 : item.game_status == "Lost" ? 0 : item?.winning_amount_single}
                                 </Typography>
 
                                 <Button onClick={() => navigate(`${endpoint}dashboard`)}
