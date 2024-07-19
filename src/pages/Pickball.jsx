@@ -448,7 +448,7 @@ function Pickball() {
                                                         :
                                                         <>
                                                             <TypographyMD variant='paragraph' label="You're ball is" color="#000000" marginLeft={0} fontFamily="Rubik" fontSize="25px" fontWeight={450} align="right" />
-                                                            & nbsp;  <img src={selected} alt="..." style={{ width: "5vh", height: "5vh" }} />
+                                                            &nbsp;  <img src={selected} alt="..." style={{ width: "5vh", height: "5vh" }} />
                                                         </>
                                                     }
                                                 </div>
