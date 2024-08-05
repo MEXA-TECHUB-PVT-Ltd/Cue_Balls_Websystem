@@ -47,8 +47,6 @@ function Dashboard() {
                     navigate(`${endpoint}waiting`);
                 } else if (response.data[0].game_status == "started") {
                     navigate(`${endpoint}gamestarted`);
-                } else {
-                    navigate(`${endpoint}playgame`);
                 }
             }
             )
@@ -155,7 +153,7 @@ function Dashboard() {
                 default:
                     console.log("Unknown status");
             }
-            
+
             console.log(":ddggfgf");
         };
 

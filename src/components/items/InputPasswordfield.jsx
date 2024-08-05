@@ -54,9 +54,10 @@ function InputPasswordfield({ autoFocus, icon, type, placeholder, label, value, 
                     startAdornment={<InputAdornment position="start" >{icon}</InputAdornment>}
                     InputProps={{
                         style: {
-                            color: isFocused ? 'gray' : 'gray',
-                            fontSize: "14px",
-                            fontWeight: "bold",
+                            color: "white",
+                            fontSize: "16px",
+                            fontWeight: "500px",
+                            letterSpacing: "0.5px",
                             borderRadius: "10px",
                             backgroundColor: "#353535"
                         },

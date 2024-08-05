@@ -30,12 +30,11 @@ function Wallet() {
         const details = JSON.parse(localStorage.getItem('profiledetails'));
         if (details) {
             setProfiledetails(details);
+            formikwithdraw.setFieldValue('email', details.data.email);
+            getUserWalletBalance(details);
+            getUserTransactionHistory(details);
         }
-
-        getUserWalletBalance(details);
-        getUserTransactionHistory(details);
-
-    }, [])
+    }, []);
 
     const getUserWalletBalance = (details) => {
 
@@ -112,6 +111,17 @@ function Wallet() {
         setOpensuccess(true);
     };
 
+    const validationSchemaWithdraw = yup.object({
+        email: yup
+            .string()
+            .email("Invalid email")
+            .matches(/^[\w.%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/, "Invalid email")
+            .required('Email is required'),
+        amount: yup
+            .string()
+            .required('Amount is required')
+    });
+
     const validationSchema = yup.object({
         amount: yup
             .string()
@@ -133,7 +143,7 @@ function Wallet() {
                     user_id: 100653,
                     // game_id: 10242,
                     items: [{
-                        "name": "Rimsha",
+                        "name": profiledetails?.data?.user_name,
                         "sku": "item",
                         "price": values.amount,
                         "currency": "USD",
@@ -177,33 +187,7 @@ function Wallet() {
                             setLoading(false);
                             // handleOpensuccess();
 
-
-                            var InsertAPIURL = `${url}create_payment_paypal-db-wallet`
-                            var headers = {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                            };
-                            var Data = {
-                                "user_id": profiledetails?.data?.user_id,
-                                "amount": values.amount
-                            };
-                            fetch(InsertAPIURL, {
-                                method: 'POST',
-                                headers: headers,
-                                body: JSON.stringify(Data),
-                            })
-                                .then(response => response.json())
-                                .then(response => {
-                                    console.log(response);
-                                }
-                                )
-                                .catch(error => {
-                                    setLoading(false);
-                                    toast.error(error, {
-                                        position: toast.POSITION.BOTTOM_CENTER
-                                    });
-                                });
-
+                            localStorage.setItem("deposit_amount", values.amount);
 
                         }, 3000)
 
@@ -225,11 +209,12 @@ function Wallet() {
     // withdraw formik 
     const formikwithdraw = useFormik({
         initialValues: {
-            amount: ''
+            email: '',
+            amount: '',
         },
-        validationSchema: validationSchema,
-
-        onSubmit: (values, { resetForm }) => {
+        validationSchema: validationSchemaWithdraw,
+        enableReinitialize: true,
+        onSubmit: (values, { resetForm, setFieldValue }) => {
             console.log(profiledetails?.data?.user_id, values);
 
             setLoading(true);
@@ -243,7 +228,8 @@ function Wallet() {
                     body: JSON.stringify({
                         amount: values.amount, // assuming 'amount' is the amount to be withdrawn
                         // receiver:"sb-29ki4328820990@business.example.com"
-                        user_id: profiledetails?.data?.user_id
+                        user_id: profiledetails?.data?.user_id,
+                        email: values.email
                     })
                 })
                     .then(response => {
@@ -253,13 +239,55 @@ function Wallet() {
                     })
                     .then(data => {
                         // handle response data
-                        console.log("data");
-                        console.log(data);
-                        console.log("link", data.PaypalWithdrawObject.links[0].href);
 
-                        window.location.href = data.PaypalWithdrawObject.links[0].href;
+                        setLoading(false);
+                        console.log(data)
+                        if (data.error) {
+                            toast.error(data.message, {
+                                position: toast.POSITION.TOP_RIGHT
+                            });
+                        } else if (data.message === "Internal server error") {
+                            toast.error("Internal server error", {
+                                position: toast.POSITION.TOP_RIGHT
+                            });
+                            setOpenmodalwithdraw(false);
+                            // resetForm(values.amou);
+                        } else {
+                            console.log(data.PaypalWithdrawObject.payout_batch_id);
+                            let payoutId = data.PaypalWithdrawObject.payout_batch_id;
 
-                        // setLoading(false);
+                            fetch(`${url}payout-check`, {
+
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    payoutBatchId: payoutId, // assuming 'amount' is the amount to be withdrawn
+                                    // receiver:"sb-29ki4328820990@business.example.com"
+                                    // user_id: 100641
+                                })
+                            })
+                                .then(response => {
+                                    console.log("response");
+                                    console.log(response);
+                                    return response.json();
+                                })
+                                .then(datad => {
+                                    console.log("datad")
+                                    if (!datad.error) {
+                                        setLoading(false);
+                                        setOpenmodalwithdraw(false);
+                                        // formikwithdraw.resetForm();
+                                        setFieldValue('amount', '');
+                                        toast.success("Withdraw created successfully", {
+                                            position: toast.POSITION.TOP_RIGHT
+                                        });
+                                        getUserWalletBalance(profiledetails);
+                                        getUserTransactionHistory(profiledetails);
+                                    }
+                                })
+                        }
                     })
                     .catch((error) => {
                         console.error('Error:', error);
@@ -331,7 +359,7 @@ function Wallet() {
                                             </Typography>
 
                                             <Typography variant='h6' align="center" color="#F5BC01" fontFamily="Rubik" fontSize={{ xs: "27px", md: "47px" }} fontWeight="57px"  >
-                                                $ {Number(balance.wallet).toFixed(2)}
+                                                {balance.wallet == null || undefined ? <></> : <> $ {Number(balance.wallet).toFixed(2)}</>}
                                             </Typography>
 
                                         </Stack>
@@ -360,17 +388,17 @@ function Wallet() {
                                             height: '255px', // Set a specific height for the stack
                                             overflowY: 'auto', // Enable vertical scrolling
                                             scrollbarWidth: 'thin', // Firefox
-                                            scrollbarColor: 'transparent transparent', // For Firefox
+                                            scrollbarColor: 'light gray', // For Firefox
                                             '&::-webkit-scrollbar': {
-                                                width: '8px', // Width of the scrollbar
-                                                backgroundColor: 'transparent', // Make the scrollbar itself transparent
+                                                width: '2px', // Width of the scrollbar
+                                                backgroundColor: 'gray', // Make the scrollbar itself transparent
                                             },
                                             '&::-webkit-scrollbar-thumb': {
-                                                backgroundColor: 'transparent', // Make the scrollbar thumb transparent
+                                                backgroundColor: 'gray', // Make the scrollbar thumb transparent
                                                 borderRadius: '10px',
                                             },
                                             '&::-webkit-scrollbar-track': {
-                                                backgroundColor: 'transparent', // Make the scrollbar track transparent
+                                                backgroundColor: 'gray', // Make the scrollbar track transparent
                                             },
                                         }}
                                     >
@@ -386,33 +414,73 @@ function Wallet() {
                                                         width: { xs: '100%', md: '100%' },
                                                     }}
                                                 >
-
-                                                    <div style={{ display: "flex", justifyContent: "right", alignContent: "right" }}>
-                                                        <Box align="right" sx={{ mt: 0.1, mr: 0.1, pl: 1, pr: 1, width: "fit-content", borderBottomLeftRadius: "10px", borderTopRightRadius: "10px", backgroundColor: `${item.type == "deposit" ? "#00C57F" : "#F5BC01"}` }}>
+                                                    <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={1}>
+                                                        <div style={{ display: "flex", justifyContent: "start", alignItems: "center" }}>
                                                             <Typography
-                                                                variant="body"
-                                                                align="right"
-                                                                color="white"
+                                                                variant="h6"
+                                                                align="left"
+                                                                color="#F5BC01"
                                                                 fontFamily="Rubik"
-                                                                fontSize={11}
-                                                                letterSpacing="1px"
+                                                                fontSize={{ xs: "12px", md: "15px" }}
+                                                                fontWeight="bold"
+                                                                pl={1}
                                                             >
-                                                                {item.type}
+                                                                Transaction ID:
                                                             </Typography>
-                                                        </Box>
-                                                    </div>
 
-                                                    <Grid container spacing={0} p={1} pb={2}>
-                                                        <Grid item xs={4} md={6} align="left">
                                                             <Typography
                                                                 variant="h6"
                                                                 align="left"
                                                                 color="#000000"
                                                                 fontFamily="Rubik"
                                                                 fontSize={{ xs: "12px", md: "15px" }}
+                                                                pl={1}
                                                             >
-                                                                $    {item.amount}
+                                                                #{item.transaction_history_id}
                                                             </Typography>
+                                                        </div>
+
+                                                        <div style={{ display: "flex", justifyContent: "end", alignItems: "center" }}>
+                                                            <Box
+                                                                align="right"
+                                                                sx={{
+                                                                    mt: 0.1,
+                                                                    mr: 0.1,
+                                                                    pl: 1,
+                                                                    pr: 1,
+                                                                    width: "fit-content",
+                                                                    borderBottomLeftRadius: "10px",
+                                                                    borderTopRightRadius: "10px",
+                                                                    backgroundColor: `${item.type === "deposit" ? "#00C57F" : "#F5BC01"}`
+                                                                }}
+                                                            >
+                                                                <Typography
+                                                                    variant="body"
+                                                                    align="right"
+                                                                    color="white"
+                                                                    fontFamily="Rubik"
+                                                                    fontSize={11}
+                                                                    letterSpacing="1px"
+                                                                >
+                                                                    {item.type}
+                                                                </Typography>
+                                                            </Box>
+                                                        </div>
+                                                    </Stack>
+
+                                                    <Grid container spacing={0} p={1} pb={2}>
+                                                        <Grid item xs={4} md={6} align="left">
+                                                            <Stack direction="column">
+                                                                <Typography
+                                                                    variant="h6"
+                                                                    align="left"
+                                                                    color="#000000"
+                                                                    fontFamily="Rubik"
+                                                                    fontSize={{ xs: "12px", md: "15px" }}
+                                                                >
+                                                                    $ {item.amount}
+                                                                </Typography>
+                                                            </Stack>
                                                         </Grid>
                                                         <Grid item xs={8} md={6} align="right">
                                                             <Typography
@@ -427,6 +495,7 @@ function Wallet() {
                                                         </Grid>
                                                     </Grid>
                                                 </Box>
+
                                             </>
                                         ))}
                                     </Stack>
@@ -488,6 +557,18 @@ function Wallet() {
 
                             <div>
                                 <div style={{ padding: 30 }}>
+                                    <InputfieldCom
+                                        autoFocus={false}
+                                        value={formikwithdraw.values.email}
+                                        onChngeterm={(e) => formikwithdraw.setFieldValue("email", e.target.value)}
+                                        error={formikwithdraw.touched.email && Boolean(formikwithdraw.errors.email)}
+                                        helperText={formikwithdraw.touched.email && formikwithdraw.errors.email}
+                                        type="text"
+                                        variant="outlined"
+                                        label=""
+                                        placeholder="Email"
+                                    />
+
                                     <InputfieldCom
                                         autoFocus={false}
                                         value={formikwithdraw.values.amount}

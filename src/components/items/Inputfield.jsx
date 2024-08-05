@@ -24,9 +24,10 @@ function Inputfield({ icon, type, label, value, placeholder, multiline, rows, on
                     }}
                     InputProps={{
                         style: {
-                            color: isFocused ? 'gray' : 'gray',
-                            fontSize: "14px",
-                            fontWeight: "bold",
+                            color: "white",
+                            fontSize: "16px",
+                            fontWeight: "500px",
+                            letterSpacing: "0.5px",
                             borderRadius: "10px",
                             backgroundColor: "#353535"
                         },

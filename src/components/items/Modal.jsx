@@ -33,7 +33,7 @@ function ModalAdd({ data, open, onClose, title }) {
                         </Grid>
 
                         <Grid xs={6} align="right">
-                            <img src={close} alt="..." style={{ alignSelf: "center", width: "5vh" }} onClick={onClose} />
+                            <img src={close} alt="..." style={{ alignSelf: "center", width: "5vh", cursor: "pointer" }} onClick={onClose} />
                         </Grid>
                     </Grid>
                 </Box>
