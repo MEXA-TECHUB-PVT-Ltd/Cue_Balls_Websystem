@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Sidebar from "../components/sidebar/Sidebar";
 import { Box, Button, Card, CardContent, Divider, Grid, IconButton, InputAdornment, Menu, MenuItem, OutlinedInput, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TablePagination, TableRow, Typography } from "@mui/material";
 import TypographyMD from "../components/items/Typography";
@@ -24,60 +24,84 @@ function Paypalsuccess() {
 
     // success 
     const [opensuccess, setOpensuccess] = useState(false);
+    const handleSuccessCalled = useRef(false);
+
+    const [profiledetails, setProfiledetails] = useState("");
+    const [amount, setAmount] = useState("");
 
     useEffect(() => {
-        setOpensuccess(true);
-    }, [])
+        const urlParams = new URLSearchParams(window.location.search);
+        const paymentId = urlParams.get('paymentId');
+        const payerId = urlParams.get('PayerID');
 
-    // const [status, setStatus] = useState('');
+        const details = JSON.parse(localStorage.getItem('profiledetails'));
+        if (details) {
+            setProfiledetails(details);
+        }
 
-    // useEffect(() => {
-    //     // Initialize the socket connection
-    //     const socket = io(url);
+        const deposit_amount = localStorage.getItem('deposit_amount');
+        if (deposit_amount) {
+            setAmount(deposit_amount);
+        }
 
-    //     // Define the message listener
-    //     const messageListener = (msg) => {
-    //         console.log(msg);
-    //         switch (msg.status) {
-    //             case "created":
-    //                 console.log("game-created");// show triangle screen
-    //                 navigate(`${endpoint}playgame`);
-    //                 break;
-    //             case "waiting":
-    //                 console.log("game-status-change"); // show waiting screen ss in phone if status is waiting  
-    //                 break;
-    //             case "started":
-    //                 console.log("game-started"); //   if status is started then show animation 
-    //                 break;
-    //             case "result-anounced":
-    //                 console.log("result-anounced");
-    //                 break;
-    //             case "restart":
-    //                 console.log("game-restart"); // show restart game screen ss in phone
-    //                 break;
-    //             case "added-participants":
-    //                 console.log("added-participants");
-    //                 break;
-    //             case "deleted":
-    //                 console.log("game-deleted");
-    //                 navigate(`${endpoint}dashboard`);
-    //                 break;
-    //             default:
-    //                 console.log("Unknown status");
-    //         }
-    //         console.log(":ddggfgf");
-    //         setStatus("dffgfdfg");
-    //     };
+        if (paymentId && payerId && !handleSuccessCalled.current) {
+            handleSuccessCalled.current = true;
+            handleSuccess(details, deposit_amount, paymentId, payerId);
+        }
+    }, []);
 
-    //     // Set up the socket event listener
-    //     socket.on("received-data", messageListener);
+    const handleSuccess = async (details, deposit_amount, paymentId, payerId) => {
+        await fetch(`${url}execute-payment`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ paymentId, payerId }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log("data");
 
-    //     // Cleanup function to remove the message listener and disconnect socket
-    //     return () => {
-    //         socket.off("received-data", messageListener);
-    //         socket.disconnect();
-    //     };
-    // }, [url]);
+                if (!data.error) {
+                    console.log('Payment successful:', data);
+                    setOpensuccess(true);
+
+                    var InsertAPIURL = `${url}create_payment_paypal-db-wallet`
+                    var headers = {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                    };
+                    var Data = {
+                        "user_id": details?.data?.user_id,
+                        "amount": deposit_amount
+                    };
+                    fetch(InsertAPIURL, {
+                        method: 'POST',
+                        headers: headers,
+                        body: JSON.stringify(Data),
+                    })
+                        .then(response => response.json())
+                        .then(response => {
+                            console.log(response);
+                        }
+                        )
+                        .catch(error => {
+                            // setLoading(false);
+                            toast.error(error, {
+                                position: toast.POSITION.BOTTOM_CENTER
+                            });
+                        });
+
+                } else {
+                    toast.error("Payment not approved", {
+                        position: toast.POSITION.TOP_RIGHT,
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error executing payment:', error);
+            });
+    };
 
     return (
         <>
@@ -87,7 +111,7 @@ function Paypalsuccess() {
                 title="Amount Deposit Successfully"
                 // subheading={`User ${userdetails.status == "unblock" ? "block" : "unblock"} Successfully`}
                 data={
-                    <ButtonMD variant="contained" title="ok" width="60%" type="submit" borderColor="orange" backgroundColor="orange" borderRadius="10px" onClickTerm={() => navigate(`${endpoint}playgame`)} />
+                    <ButtonMD variant="contained" title="ok" width="60%" type="submit" borderColor="orange" backgroundColor="orange" borderRadius="10px" onClickTerm={() => navigate(`${endpoint}wallet`)} />
                 }
             />
 

@@ -174,32 +174,33 @@ function Playgame() {
                             setLoading(false);
                             // handleOpensuccess();
 
+                            localStorage.setItem("deposit_amount", values.amount);
 
-                            var InsertAPIURL = `${url}create_payment_paypal-db-wallet`
-                            var headers = {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json',
-                            };
-                            var Data = {
-                                "user_id": profiledetails?.data?.user_id,
-                                "amount": values.amount
-                            };
-                            fetch(InsertAPIURL, {
-                                method: 'POST',
-                                headers: headers,
-                                body: JSON.stringify(Data),
-                            })
-                                .then(response => response.json())
-                                .then(response => {
-                                    console.log(response);
-                                }
-                                )
-                                .catch(error => {
-                                    setLoading(false);
-                                    toast.error(error, {
-                                        position: toast.POSITION.BOTTOM_CENTER
-                                    });
-                                });
+                            // var InsertAPIURL = `${url}create_payment_paypal-db-wallet`
+                            // var headers = {
+                            //     'Accept': 'application/json',
+                            //     'Content-Type': 'application/json',
+                            // };
+                            // var Data = {
+                            //     "user_id": profiledetails?.data?.user_id,
+                            //     "amount": values.amount
+                            // };
+                            // fetch(InsertAPIURL, {
+                            //     method: 'POST',
+                            //     headers: headers,
+                            //     body: JSON.stringify(Data),
+                            // })
+                            //     .then(response => response.json())
+                            //     .then(response => {
+                            //         console.log(response);
+                            //     }
+                            //     )
+                            //     .catch(error => {
+                            //         setLoading(false);
+                            //         toast.error(error, {
+                            //             position: toast.POSITION.BOTTOM_CENTER
+                            //         });
+                            //     });
 
 
                         }, 3000)

@@ -3,20 +3,21 @@
     box-shadow: none;
     background-color: transparent;
     color: #A5ADB0;
-    width: 210px;
+    /* width: 100vh; */
     font-weight: 500;
     font-size: 13px;
-    font-family: Laila;
+    font-family: Rubik;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
+    cursor: pointer;
 }
 
 /* .navbar .icon { 
     color: red;
 } */
 
-.navbar li:hover {
-    /* width: 100vh; */
+.navbar li {
+    width: 100vh;
     display: inline-block;
     box-shadow: none;
     background-color: transparent;
@@ -28,11 +29,11 @@
 }
 
 .navbar .navbar-link:hover {
-    box-shadow: none; 
+    box-shadow: none;
 }
 
 .navbar .active {
-    width: 220px;
+    width: 230px;
     border-top-right-radius: 50px;
     border-bottom-right-radius: 50px;
     background-color: #F5BC01;

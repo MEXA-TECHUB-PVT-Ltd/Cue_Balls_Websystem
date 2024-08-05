@@ -267,121 +267,21 @@ function Sidebar({ componentData }) {
                     {/* <Divider /> */}
                     <List sx={{ backgroundColor: "rgba(255, 230, 127,0.6)", height: "100vh", pt: { xs: 5, md: 0 } }}>
                         <ul className='navbar'>
-
-                            <li>
-                                <NavLink to={`${endpoint}dashboard`} className="navbar-link">
-                                    {[<span key="dashboard"><Typography sx={{ fontFamily: "Rubik" }}>Dashboard</Typography></span>].map((text, index) => (
-                                        <ListItem key={text} disablePadding sx={{ display: 'block' }} >
-                                            <ListItemButton
-                                                sx={{
-                                                    minHeight: 0,
-                                                    justifyContent: open ? 'initial' : 'center',
-                                                    px: 2, pb: 0,
-                                                }}
-                                            >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        minWidth: 0,
-                                                        mr: open ? 3 : 'auto',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    {index % 2 === 0 ? <Dashboard sx={{ fontSize: "20px" }} /> : <></>}
-                                                </ListItemIcon>
-                                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </NavLink>
-                            </li>
-
-                            <li>
-                                <NavLink to={`${endpoint}wallet`} className="navbar-link">
-                                    {[<span key="wallet"><Typography sx={{ fontFamily: "Rubik" }}>Wallet</Typography></span>].map((text, index) => (
-                                        <ListItem key={text} disablePadding sx={{ display: 'block' }} >
-                                            <ListItemButton
-                                                sx={{
-                                                    minHeight: 0,
-                                                    justifyContent: open ? 'initial' : 'center',
-                                                    px: 2, pb: 0,
-                                                }}
-                                            >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        minWidth: 0,
-                                                        mr: open ? 3 : 'auto',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    {index % 2 === 0 ? <DeviceThermostat sx={{ fontSize: "20px" }} /> : <></>}
-                                                </ListItemIcon>
-                                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </NavLink>
-                            </li>
-
-                            <li>
-                                <NavLink to={`${endpoint}history`} className="navbar-link">
-                                    {[<span key="history"><Typography sx={{ fontFamily: "Rubik" }}>History</Typography></span>].map((text, index) => (
-                                        <ListItem key={text} disablePadding sx={{ display: 'block' }} >
-                                            <ListItemButton
-                                                sx={{
-                                                    minHeight: 0,
-                                                    justifyContent: open ? 'initial' : 'center',
-                                                    px: 2, pb: 0,
-                                                }}
-                                            >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        minWidth: 0,
-                                                        mr: open ? 3 : 'auto',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    {index % 2 === 0 ? <History sx={{ fontSize: "20px" }} /> : <></>}
-                                                </ListItemIcon>
-                                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </NavLink>
-                            </li>
-
-                            <li>
-                                <NavLink to={`${endpoint}editprofile`} className="navbar-link">
-                                    {[<span key="editprofile"><Typography sx={{ fontFamily: "Rubik" }}>Edit Profile</Typography></span>].map((text, index) => (
-                                        <ListItem key={text} disablePadding sx={{ display: 'block' }} >
-                                            <ListItemButton
-                                                sx={{
-                                                    minHeight: 0,
-                                                    justifyContent: open ? 'initial' : 'center',
-                                                    px: 2, pb: 0,
-                                                }}
-                                            >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        minWidth: 0,
-                                                        mr: open ? 3 : 'auto',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    {index % 2 === 0 ? <Edit sx={{ fontSize: "20px" }} /> : <></>}
-                                                </ListItemIcon>
-                                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </NavLink>
-                            </li>
-
-                            {profiledetails?.data?.signup_type == "google" ? <></>
-                                :
-                                <li>
-                                    <NavLink to={`${endpoint}changepassword`} className="navbar-link">
-                                        {[<span key="changepassword"><Typography sx={{ fontFamily: "Rubik" }}>Change Password</Typography></span>].map((text, index) => (
-                                            <ListItem key={text} disablePadding sx={{ display: 'block' }} >
+                            {[
+                                { to: "dashboard", text: "Dashboard", icon: <Dashboard sx={{ fontSize: "20px" }} /> },
+                                { to: "wallet", text: "Wallet", icon: <DeviceThermostat sx={{ fontSize: "20px" }} /> },
+                                { to: "history", text: "History", icon: <History sx={{ fontSize: "20px" }} /> },
+                                { to: "editprofile", text: "Edit Profile", icon: <Edit sx={{ fontSize: "20px" }} /> },
+                                { to: "changepassword", text: "Change Password", icon: <Security sx={{ fontSize: "20px" }} />, condition: profiledetails?.data?.signup_type !== "google" },
+                                { to: "contactus", text: "Contact Us", icon: <ContactPage sx={{ fontSize: "20px" }} /> },
+                                { to: "privacypolicy", text: "Privacy Policy", icon: <PrivacyTip sx={{ fontSize: "20px" }} /> },
+                                { to: "termsconditions", text: "Terms & Conditions", icon: <Assessment sx={{ fontSize: "20px" }} /> },
+                                { to: "deleteaccount", text: "Delete Account", icon: <Delete sx={{ fontSize: "20px" }} /> },
+                            ].map((item, index) => (
+                                item.condition === false ? null : (
+                                    <li key={item.text}>
+                                        <NavLink to={`${endpoint}${item.to}`} className="navbar-link" style={{ textDecoration: 'none' }}>
+                                            <ListItem disablePadding sx={{ display: 'block' }}>
                                                 <ListItemButton
                                                     sx={{
                                                         minHeight: 0,
@@ -396,125 +296,15 @@ function Sidebar({ componentData }) {
                                                             justifyContent: 'center',
                                                         }}
                                                     >
-                                                        {index % 2 === 0 ? <Security sx={{ fontSize: "20px" }} /> : <></>}
+                                                        {item.icon}
                                                     </ListItemIcon>
-                                                    <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                                                    <ListItemText primary={<Typography sx={{ fontFamily: "Rubik" }}>{item.text}</Typography>} sx={{ opacity: open ? 1 : 0 }} />
                                                 </ListItemButton>
                                             </ListItem>
-                                        ))}
-                                    </NavLink>
-                                </li>
-                            }
-
-                            <li>
-                                <NavLink to={`${endpoint}contactus`} className="navbar-link">
-                                    {[<span key="contactus"><Typography sx={{ fontFamily: "Rubik" }}>Contact us</Typography></span>].map((text, index) => (
-                                        <ListItem key={text} disablePadding sx={{ display: 'block' }} >
-                                            <ListItemButton
-                                                sx={{
-                                                    minHeight: 0,
-                                                    justifyContent: open ? 'initial' : 'center',
-                                                    px: 2, pb: 0,
-                                                }}
-                                            >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        minWidth: 0,
-                                                        mr: open ? 3 : 'auto',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    {index % 2 === 0 ? <ContactPage sx={{ fontSize: "20px" }} /> : <></>}
-                                                </ListItemIcon>
-                                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </NavLink>
-                            </li>
-
-                            <li>
-                                <NavLink to={`${endpoint}privacypolicy`} className="navbar-link">
-                                    {[<span key="privacypolicy"><Typography sx={{ fontFamily: "Rubik" }}>Privacy Policy</Typography></span>].map((text, index) => (
-                                        <ListItem key={text} disablePadding sx={{ display: 'block' }} >
-                                            <ListItemButton
-                                                sx={{
-                                                    minHeight: 0,
-                                                    justifyContent: open ? 'initial' : 'center',
-                                                    px: 2, pb: 0,
-                                                }}
-                                            >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        minWidth: 0,
-                                                        mr: open ? 3 : 'auto',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    {index % 2 === 0 ? <PrivacyTip sx={{ fontSize: "20px" }} /> : <></>}
-                                                </ListItemIcon>
-                                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </NavLink>
-                            </li>
-
-                            <li>
-                                <NavLink to={`${endpoint}termsconditions`} className="navbar-link">
-                                    {[<span key="termsconditions"><Typography sx={{ fontFamily: "Rubik" }}>Terms & Conditions</Typography></span>].map((text, index) => (
-                                        <ListItem key={text} disablePadding sx={{ display: 'block' }} >
-                                            <ListItemButton
-                                                sx={{
-                                                    minHeight: 0,
-                                                    justifyContent: open ? 'initial' : 'center',
-                                                    px: 2, pb: 0,
-                                                }}
-                                            >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        minWidth: 0,
-                                                        mr: open ? 3 : 'auto',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    {index % 2 === 0 ? <Assessment sx={{ fontSize: "20px" }} /> : <></>}
-                                                </ListItemIcon>
-                                                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </NavLink>
-                            </li>
-
-                            <li>
-                                <NavLink to={`${endpoint}deleteaccount`} className="navbar-link">
-                                    {[<span key="deleteaccount"><Typography sx={{ fontFamily: "Rubik" }}>Delete Account</Typography></span>].map((text, index) => (
-                                        <ListItem key={text} disablePadding sx={{ display: 'block' }} >
-                                            <ListItemButton
-                                                sx={{
-                                                    minHeight: 0,
-                                                    justifyContent: open ? 'initial' : 'center',
-                                                    px: 2, pb: 0,
-                                                }}
-                                            >
-                                                <ListItemIcon
-                                                    sx={{
-                                                        minWidth: 0,
-                                                        mr: open ? 3 : 'auto',
-                                                        justifyContent: 'center',
-                                                    }}
-                                                >
-                                                    {index % 2 === 0 ? <Delete sx={{ fontSize: "20px" }} /> : <></>}
-                                                </ListItemIcon>
-                                                <ListItemText
-                                                    primary={text} sx={{ opacity: open ? 1 : 0 }} />
-                                            </ListItemButton>
-                                        </ListItem>
-                                    ))}
-                                </NavLink>
-                            </li>
-
+                                        </NavLink>
+                                    </li>
+                                )
+                            ))}
                         </ul>
                     </List>
 
@@ -552,7 +342,7 @@ function Sidebar({ componentData }) {
 
                             <div style={{ display: "flex", justifyContent: "center", alignContent: "center" }}>
                                 <Stack align="center" direction="column" spacing={2} >
-                                    <img src={alert} alt="..." style={{ alignSelf: "center", width: "20vh" }} />
+                                    <img src={alert} alt="..." style={{ alignSelf: "center", width: "15vh" }} />
 
                                     <TypographyMD variant='paragraph' label="Do you want to logout?" color="#232323" fontFamily="Rubik" marginLeft={0} fontSize="20px" fontWeight={550} align="center" />
 

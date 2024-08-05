@@ -157,9 +157,16 @@ function ButtonMD({ type, disabled, title, variant, onClickTerm, startIcon, font
                                     onClick={onClickTerm}
 
                                     style={{
-                                        padding: "15px",
-                                        borderColor: { borderColor },
-                                        width: width
+                                        padding: "15px 30px",
+                                        borderColor: "#FFEA96",
+                                        color: "#FFEA96",
+                                        textTransform: "capitalize",
+                                        fontFamily: "Rubik",
+                                        width: width,
+                                        fontWeight: 450,
+                                        fontSize: "15px",
+                                        // borderRadius: borderRadius,
+                                        height: "45px", boxShadow: "none", borderRadius: "10px"
                                     }} >
                                     {title}
                                 </Button>
